@@ -252,6 +252,7 @@
         }
 
         function addProduct(idProduct) {
+            //Añadir el producto
             let product = result.find(element => element.id == idProduct)
             $('#addedProductName').text(product.name);
             let exist = false;
@@ -293,7 +294,7 @@
                     '</td>' +
                     '</tr>'
                 );
-
+                $('#transferButton').prop('disabled', true);
                 $('.observable').off();
                 $('.observable').change(function() {
                     update();

@@ -6,6 +6,7 @@
             <!-- <a href="#" class="list-group-item list-group-item-action {{ strpos(Request::url(),'home') ? 'active' : '' }}">Inicio</a> -->
             <a href="/caja" class="list-group-item list-group-item-action {{ strpos(Request::url(),'caja') ? 'active' : '' }}">Vender</a>
             <a href="/sale" class="list-group-item list-group-item-action {{ strpos(Request::url(),'sale') ? 'active' : '' }}">Ventas</a>
+            <a href="/quotes" class="list-group-item list-group-item-action {{ strpos(Request::url(),'quotes') ? 'active' : '' }}">Cotizaciones</a>
             @if(Auth::user()->rol_id!==2)
                 <a href="/initialCash" class="list-group-item list-group-item-action {{ strpos(Request::url(),'initialCash') ? 'active' : '' }}">Establecer monto Inicial</a>                
                 <a href="/users" class="list-group-item list-group-item-action {{ strpos(Request::url(),'users') ? 'active' : '' }}">Usuarios</a>

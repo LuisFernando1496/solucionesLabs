@@ -17,9 +17,12 @@ class BoxController extends Controller
      */
     public function index()
     {
-
         if(Auth::user()->rol_id == 1){
-            return view('boxes.index',["boxes" => Box::where('status', '=',true)->get(),"branch_office" => BranchOffice::where('status','=',true)->get()]);
+            return view('boxes.index',[
+                "boxes" => Box::where('status', '=',true)->get(),
+                "branch_office" => BranchOffice::where('status','=',true)->get(),
+                //"products" => Product::where('status', true)->get()
+            ]);
         }else{
             return view('boxes.index',["boxes" => Box::where('branch_office_id', '=',Auth::user()->branch_office_id)->where('status', '=',true)->get(),"branch_office" =>[Auth::user()->branchOffice]]);
         }
@@ -119,6 +122,17 @@ class BoxController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Auth::user()->rol_id == 1) {
+            try {
+                $box = Box::findOrFail($id);
+                $box->changeStatus(false);
+                return redirect('box');
+            } catch (\Throwable $th) {
+                return back()->withErrors(["error" => "Ocurrió un error al deshabilitar la caja"]);
+                return $th->getMessage();
+            }
+        } else {
+            return back()->withErrors(["error" => "No tienes permisos"]);
+        }
     }
 }

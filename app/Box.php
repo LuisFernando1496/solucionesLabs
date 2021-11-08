@@ -7,15 +7,18 @@ use App\BranchOffice;
 
 class Box extends Model
 {
-        protected $guarded = [];
+    protected $guarded = [];
 
-        public function add($data){
-            return $this->create($data);
-        }
-        public function edit($data){
-            return $this->fill($data)->save();
-        }
-        public function BranchOffice(){
-            return $this->belongsTo(BranchOffice::class);
-        }
+    public function add($data){
+        return $this->create($data);
+    }
+    public function edit($data){
+        return $this->fill($data)->save();
+    }
+    public function BranchOffice(){
+        return $this->belongsTo(BranchOffice::class);
+    }
+    public function changeStatus($status){
+      return $this->fill(["status"=>$status])->save();
+    }
 }

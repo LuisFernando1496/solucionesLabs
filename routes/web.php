@@ -46,6 +46,7 @@ Route::group(['middleware'=>'auth'], function(){
     });
     Route::resource('BranchOffice','BranchOfficeController');
     // Route::resource('expense', 'ExpenseController');
+    Route::resource('quotes', 'QuotesController');
     Route::resource('reportes', 'ReportController');
     Route::get('employeeByOffice/{id}','ReportController@employeeByOffice');
     Route::get('reporte', function(){
@@ -66,6 +67,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('purchase-history','PurchaseController@getHistory');
     Route::resource('provider', 'ProviderController');
     Route::get('sale/productsCategory/{id}', 'SaleController@productsByCategory');
+    Route::resource('box','BoxController');
     Route::resource('box','BoxController');
     Route::resource('cashClosing','CashClosingController');
     Route::resource('initialCash','InitialCashController');
