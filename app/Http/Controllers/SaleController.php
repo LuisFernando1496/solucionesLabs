@@ -386,6 +386,7 @@ class SaleController extends Controller
             return back()->withErrors(["error" => "No se pudo realizar la operación."]);
         }
     }
+    //Detalles
     public function showDetails($id)
     {
         $details = ProductInSale::join('products', 'products.id', 'product_id')->where('sale_id', $id)->get();
@@ -393,6 +394,7 @@ class SaleController extends Controller
         $client = Client::where('id',$sale->client_id)->first();
         return view('sales.details', ['details' => $details, 'sale' => $sale,'client' => $client]);
     }
+    
     public function showCanceledSale()
     {
         $sale = Sale::with('productsInSale')->where('status', false)->get();

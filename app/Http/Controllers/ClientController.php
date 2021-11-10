@@ -55,6 +55,7 @@ class ClientController extends Controller
         
         return view('client.history', ['details' =>$details,'sale'=>$sale,'history'=>$history,'last_payment'=>$last_payment]);
     }
+
     public function abonar(Request $request)
     {
 
@@ -79,8 +80,12 @@ class ClientController extends Controller
     
                 $payment = new Payment($newPayment);
                 $payment->save();
+
                 DB::commit();
-                return back()->with(["success" => "Éxito al realizar la operación."]);
+                //$sale = Sale::where('id', $request->sale_id)->with(['branchOffice.address', 'productsInSale.product'])->first();
+                //$client = Client::where('id', '=', $sale->client_id)->first();
+                return view('sales.creditNote', ['sale' => $sale, 'client' => $client]);
+                //return back()->with(["success" => "Éxito al realizar la operación1."]);
             } catch (\Throwable $th) {
                 DB::rollback();
                 return back()->withErrors(["error" => "No se pudo realizar la operación."]);
@@ -104,7 +109,8 @@ class ClientController extends Controller
                 $payment = new Payment($newPayment);
                 $payment->save();
                 DB::commit();
-                return back()->with(["success" => "Éxito al realizar la operación."]);
+                return view('sales.creditNote', ['sale' => $sale, 'client' => $client]);
+                //return back()->with(["success" => "Éxito al realizar la operación2."]);
             } catch (\Throwable $th) {
                 DB::rollback();
                 return back()->withErrors(["error" => "No se pudo realizar la operación."]);

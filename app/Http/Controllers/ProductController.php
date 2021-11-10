@@ -32,7 +32,11 @@ class ProductController extends Controller
             $providers = Provider::all();
             return view('products.index', [
                 'products' => $products,
-                'brands' => Brand::where('status', true)->get(), 'categories' => Category::where('status', true)->get(), 'offices' => $offices, 'providers' => $providers]);
+                'brands' => Brand::where('status', true)->get(), 
+                'categories' => Category::where('status', true)->get(), 
+                'offices' => $offices, 
+                'providers' => $providers
+            ]);
         } else {
             return back()->withErrors(["error" => "No tienes permisos"]);
         }

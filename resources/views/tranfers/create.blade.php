@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="col-md-12" style="padding-top: 5%;">
                                     <label for="details">Detalles</label>
-                                    <textarea class="form-group" style="border-color: green;" name="details" id="details" required></textarea>
+                                    <textarea class="form-group" style="border-color: green;" name="details" id="details"></textarea>
                                 </div>
                                 <div class="row my-4 mx-2">
                                     <div class="col-md-12">

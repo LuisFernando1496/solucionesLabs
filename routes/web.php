@@ -47,6 +47,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('BranchOffice','BranchOfficeController');
     // Route::resource('expense', 'ExpenseController');
     Route::resource('quotes', 'QuotesController');
+    Route::post('quotes/download/excel', 'QuotesController@dowloadQuote');
     Route::resource('reportes', 'ReportController');
     Route::get('employeeByOffice/{id}','ReportController@employeeByOffice');
     Route::get('reporte', function(){
