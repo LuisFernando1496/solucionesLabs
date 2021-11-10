@@ -71,42 +71,31 @@ class TransferController extends Controller
                 $productDestinity = Product::where('bar_code', $item['barcode'])->where('branch_office_id', $transfer->destination_branch_office_id)->first();
                 if ($productDestinity == '') {
                     //generar un traspacio cuando no existe en la sucursal
-                    //return response()->json(['success' => false, 'error' => 'No existe el producto en la sucursal destino']);
-
-                    
-                    //$folioBranch = Sale::latest()->where('branch_office_id', Auth::user()->branchOffice->id)->pluck('folio_branch_office')->first();
-                    //$sale = $request->all()["sale"];
-                    //$oficce = $request->all()["destination_branch_office_id"];
-                    //$total_cost_sale = 0;
-                    //traspaso con factura
-                    //if($oficce['saletype'] == 1)
-                    //{
-                        //$destination = destination_branch_office_id;
-                        try {
-                            $transfer = Transfer::create([
-                                'status'=>'Transferido',
-                                'provincial_branch_office_id' => Auth::user()->branch_office_id ,
-                                'destination_branch_office_id' => $transfer['destination_branch_office_id'],
-                                'user_id' => Auth::user()->id,
-                                'details'=> 'Transferencia de Productos'
-                            ]);
-                            
-                            //foreach ($request->all()["products"] as $key => $item1) { 
-                            $product = Product::findOrFail($item['product_id']);
+                    try {
+                        $transfer = Transfer::create([
+                            'status'=>'Transferido',
+                            'provincial_branch_office_id' => Auth::user()->branch_office_id ,
+                            'destination_branch_office_id' => $transfer['destination_branch_office_id'],
+                            'user_id' => Auth::user()->id,
+                            'details'=> 'Transferencia de Productos'
+                        ]);
+                        
+                        foreach ($request->all()["products"] as $key => $nuevo) { 
+                            $product = Product::findOrFail($nuevo['product_id']);
                             //$product = Product::findOrFail($item['id']);
-                            $product->stock = $product->stock - $item['quantity'];
+                            $product->stock = $product->stock - $nuevo['quantity'];
                             $product->save();
                             $oficce = $request->all()["transfer"];
                             $addProduct = Product::where('branch_office_id', $oficce['destination_branch_office_id'])->where('bar_code',$product->bar_code)->first();
                             if(!empty($addProduct)){
                                 return response()->json(['success' => false, 'error' => 'No existe el producto en la sucursal destino12']);
                                 $addProduct->update([
-                                    'stock' => $addProduct->stock + $item['quantity'],
+                                    'stock' => $addProduct->stock + $nuevo['quantity'],
                                 ]);
                             }else{
                                 Product::create([
                                     'name' => $product->name,
-                                    'stock' => $item['quantity'],
+                                    'stock' => $nuevo['quantity'],
                                     'cost' => $product->cost,
                                     'expiration' => $product->expiration,
                                     'iva' => $product->iva,
@@ -124,37 +113,28 @@ class TransferController extends Controller
                                     'status' => $product->status,
                                 ]);
                             }
-                            //return response()->json(['success' => false, 'error' => 'No existe el producto en la sucursal destino13']);    
-                            /*$newProductTraspace = [
-                                'product_id' => $item['product_id'],
+                            $newProductInTransfer = [
                                 'transfer_id' => $transfer->id,
-                                'quantity' => $item['quantity'],
-                                'subtotal' => $item['subtotal'],
-                                'sale_price' => $item['sale_price'],
-                                'cost' => $item['costo'],
-                                'total' => $item['total'],
-                                'discount' => $item['discount']
-                            ];*/
-                            // $total_cost_sale = $total_cost_sale + $newProductTraspace['total_cost'];
-                            //$productInSale = new SendProduct($newProductTraspace);
-                            //$productInSale->save();
-                            
-                            //}enforeach
-                            //return response()->json(['success' => true, 'data' =>$oficce, 'transfer'=>$transfer]);
-                            DB::commit();
-                            return response()->json(['success' => true, 'good' => 'Transacción exitosa']);
-                        } catch (\Throwable $th) {
-                            Product::rollBack();
-                            SendProduct::rollBack();
-                            Transfer::rolBack();
-                            return response()->json(['error'=>'no se pudo realizar la transferencia a la sucursal', 'data'=>$sale]);
-                            //throw $th;
-                        }
+                                'product_id' => $nuevo["product_id"],
+                                'quantity' => $nuevo["quantity"],
+                            ];
+                            $productInTransfer =  new ProductsTransfer($newProductInTransfer);
+                            $productInTransfer->save();
                         
-                    //}
+                        }
+                        //return response()->json(['success' => true, 'data' =>$oficce, 'transfer'=>$transfer]);
+                        DB::commit();
+                        return response()->json(['success' => true, 'good' => 'Transacción exitosa']);
+                    } catch (\Throwable $th) {
+                        Product::rollBack();
+                        SendProduct::rollBack();
+                        Transfer::rolBack();
+                        return response()->json(['error'=>'no se pudo realizar la transferencia a la sucursal', 'data'=>$sale]);
+                        //throw $th;
+                    }
                 }
 
-                if ($product->category_id != 1) {
+                /*if ($product->category_id != 1) {
                     $product->stock = $product->stock - $item['quantity'];
                 } else {
                     //No se descuenta porque es servicio
@@ -167,7 +147,7 @@ class TransferController extends Controller
                     'quantity' => $item["quantity"],
                 ];
                 $productInTransfer =  new ProductsTransfer($newProductInTransfer);
-                $productInTransfer->save();
+                $productInTransfer->save();*/
             }
             DB::commit();
             return response()->json(['success' => true, 'good' => 'Transacción exitosa']);

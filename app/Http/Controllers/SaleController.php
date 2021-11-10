@@ -319,8 +319,7 @@ class SaleController extends Controller
         $sale = Sale::where('id', $request->sale_id)->with(['branchOffice.address', 'productsInSale.product'])->first();
         if($sale->status_credit == null){
             return view('sales.ticket_new', ['sale' => $sale]);
-        }
-        else{
+        }else{
             $client = Client::where('id', '=', $sale->client_id)->first();
             return view('sales.creditNote', ['sale' => $sale, 'client' => $client]);
         }

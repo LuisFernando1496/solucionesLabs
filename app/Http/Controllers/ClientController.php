@@ -46,7 +46,7 @@ class ClientController extends Controller
     }
     public function showDetailsHistory($id)
     {
-        $details=ProductInSale::join('products','products.id','product_id')->where('sale_id',$id)->get();
+        $details = ProductInSale::join('products','products.id','product_id')->where('sale_id',$id)->get();
         $sale=Sale::where('id', $id)->first();
         
         $history=Payment::where('sale_id', $id)->get();
@@ -65,26 +65,28 @@ class ClientController extends Controller
             try {
                 DB::beginTransaction();
                 
-                $client->authorized_credit = $client->authorized_credit +$request->deposit;
+                $client->authorized_credit = $client->authorized_credit + $request->deposit;
                 $client->save();
                 $sale->status_credit ='pagado';
                 $sale->save();
                 $newPayment = [
-      
                     'sale_id' => $request->sale_id,
                     'deposit' => $request->deposit,
                     'leftover' => $request->leftover,
-        
-        
                 ];
     
                 $payment = new Payment($newPayment);
                 $payment->save();
 
                 DB::commit();
-                //$sale = Sale::where('id', $request->sale_id)->with(['branchOffice.address', 'productsInSale.product'])->first();
-                //$client = Client::where('id', '=', $sale->client_id)->first();
-                return view('sales.creditNote', ['sale' => $sale, 'client' => $client]);
+                //$pay = Payment::findOrFail($request->sale_id);
+                //$sale = Payment::join('sales','sales.id','sale_id')->where('sale_id',$request->id)->get();
+                $pay = Payment::where('sale_id', $request->sale_id)->latest()->first();
+                return view('client.creditNote', [
+                    'sale' => $sale, 
+                    'client' => $client,
+                    'pay' => $pay
+                ]);
                 //return back()->with(["success" => "Éxito al realizar la operación1."]);
             } catch (\Throwable $th) {
                 DB::rollback();
@@ -98,18 +100,21 @@ class ClientController extends Controller
                 $client->authorized_credit = $client->authorized_credit +$request->deposit;
                 $client->save();
                 $newPayment = [
-      
                     'sale_id' => $request->sale_id,
                     'deposit' => $request->deposit,
                     'leftover' => $request->leftover,
-        
-        
                 ];
     
                 $payment = new Payment($newPayment);
                 $payment->save();
                 DB::commit();
-                return view('sales.creditNote', ['sale' => $sale, 'client' => $client]);
+                $pay = Payment::where('sale_id', $request->sale_id)->latest()->first();
+                //$sale = Payment::join('sales','sales.id','sale_id')->where('sale_id',$request->id)->get();
+                return view('client.creditNote', [
+                    'sale' => $sale, 
+                    'client' => $client, 
+                    'pay' => $pay
+                ]);
                 //return back()->with(["success" => "Éxito al realizar la operación2."]);
             } catch (\Throwable $th) {
                 DB::rollback();
