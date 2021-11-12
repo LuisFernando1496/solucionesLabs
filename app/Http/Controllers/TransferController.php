@@ -88,7 +88,7 @@ class TransferController extends Controller
                             $oficce = $request->all()["transfer"];
                             $addProduct = Product::where('branch_office_id', $oficce['destination_branch_office_id'])->where('bar_code',$product->bar_code)->first();
                             if(!empty($addProduct)){
-                                return response()->json(['success' => false, 'error' => 'No existe el producto en la sucursal destino12']);
+                                //return response()->json(['success' => false, 'error' => 'No existe el producto en la sucursal destino12']);
                                 $addProduct->update([
                                     'stock' => $addProduct->stock + $nuevo['quantity'],
                                 ]);

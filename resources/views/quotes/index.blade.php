@@ -422,7 +422,7 @@
                 }
             });*/
 
-            $('#MXN').change(function (){
+            /*$('#MXN').change(function (){
                 if (document.getElementById("MXN").checked == false) {
                     document.getElementById("USD").checked = false;
                     document.getElementById("MXN").checked = true;
@@ -434,7 +434,7 @@
                     }
                     update();
                 }
-            });
+            });*/
 
             if($('#branch_office_id').val()!==undefined){
                 getBoxes();
@@ -794,7 +794,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    type: 'POST',
+                    type: 'GET',
                     contentType: "application/json; charset=iso-8859-1",
                     data: JSON.stringify(request),
                     dataType: 'html',
