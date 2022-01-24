@@ -1,4 +1,6 @@
-<html>
+hola mundo
+
+<!--<html>
     <head>
         <style type="text/css">
             table {
@@ -32,25 +34,25 @@
             </table> --}}
 
             @php
-            $totals = 0;
-        @endphp
-<h5>TRANSFER</h5>
+                $totals = 0;
+            @endphp
+            <h5>COTIZACION</h5>
             <table style="width: 100%; margin-top:20px;">
         
                     
-                <tr>
-                    <th colspan="5" >
+                <tr>-->
+                    <!--<th colspan="5" >
                       Origin {{$send[0]->trasnfer->origin->name}}
-                    </th>
-                </tr>
-                <tr>
-                    <th style="font-size: 10px"  colspan="5" >submitted to  {{$send[0]->trasnfer->branchOffice->name}} </th>
+                    </th>-->
+                <!--</tr>
+                <tr>-->
+                    <!--<th style="font-size: 10px"  colspan="5" >submitted to  {{$send[0]->trasnfer->branchOffice->name}} </th>-->
                   
-                </tr>
-                <tr>
-                    <th style="font-size: 10px"  colspan="5" >Fecha {{$send[0]->trasnfer->created_at->format('d-m-y')}} </th>
+                <!--</tr>
+                <tr>-->
+                    <!--<th style="font-size: 10px"  colspan="5" >Fecha {{$send[0]->trasnfer->created_at->format('d-m-y')}} </th>-->
                   
-                </tr>
+                <!--</tr>
                 <tr>
                     <th style="font-size: 10px" class="backgroundColor">CODIGO</th>
                     <th style="font-size: 10px" class="backgroundColor">PRODUCTO</th>
@@ -60,34 +62,28 @@
                     <th style="font-size: 10px" class="backgroundColor">CANTIDAD</th>
                     <th style="font-size: 10px" class="backgroundColor">DESCUENTO (%)</th>
                     <th style="font-size: 10px" class="backgroundColor">SUBTOTAL</th>
-                </tr>
+                </tr>-->
                 
-               @foreach ($send as $item)
-                   <tr>
-                        <td>{{$item->product->bar_code}}</td>
-                        <td>{{$item->product->name}}</td>
-                        <td>{{$item->product->brand_name}}</td>
-                        <td>{{$item->product->category_name}}</td>
-                        <td>{{$item->product->price_1}}</td>
-                        <td>{{$item->product->stock}}</td>
-                        <td>{{$item->product->price}}</td>
+               
+                   <!--<tr>
+                        <td>{{$item->bar_code}}</td>
+                        <td>{{$item->name}}</td>
+                        <td>{{$item->brand_name}}</td>
+                        <td>{{$item->category_name}}</td>
+                        <td>{{$item->price_1}}</td>
+                        <td>{{$item->stock}}</td>
+                        <td>{{$item->price}}</td>
                         @php
                            $totals += $item->product->total
                         @endphp
                     
-                   </tr>
-               @endforeach
+                   </tr>-->
+<!--               
              <tr>
                  <th colspan="6"></th>
                  <td>Total: ${{$totals}}</td>
              </tr>
             </table>
-
-
-
-
-           
-            
         </div>
     </body>
-</html>
+</html>-->

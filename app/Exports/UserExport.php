@@ -111,15 +111,17 @@ class UserExport implements FromView
         }
 
 
-        return view('reports.reportUser',["cash" => $d0,
-        "card" => $d1,
-        "user" => Auth::user(),
-        "date" =>$date,
-        "products"=>$p,
-        "branchOffice" => $b,
-        "worker" => $tempUser,
-        "to" => $to,
-        "from" =>$showFrom]);
+        return view('reports.reportUser',[
+            "cash" => $d0,
+            "card" => $d1,
+            "user" => Auth::user(),
+            "date" =>$date,
+            "products"=>$p,
+            "branchOffice" => $b,
+            "worker" => $tempUser,
+            "to" => $to,
+            "from" =>$showFrom
+        ]);
 
     }
 }
