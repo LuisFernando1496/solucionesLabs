@@ -118,11 +118,9 @@ class SaleController extends Controller
                         $sale->save();
                         foreach ($request->all()["products"] as $key => $item) {
                             $product = Product::findOrFail($item['id']);
-                            if ($product->category_id != 1) {
+                           
                                 $product->stock = $product->stock - $item['quantity'];
-                            } else {
-                                //No se descuenta porque es servicio
-                            }
+                           
                             $product->save();
                             $newProductInSale = [
                                 'product_id' => $item['id'],
@@ -173,11 +171,9 @@ class SaleController extends Controller
                     $sale->save();
                     foreach ($request->all()["products"] as $key => $item) {
                         $product = Product::findOrFail($item['id']);
-                        if ($product->category_id != 1) {
+                     
                             $product->stock = $product->stock - $item['quantity'];
-                        } else {
-                            //No se descuenta porque es servicio
-                        }
+                        
                         $product->save();
                         $newProductInSale = [
                             'product_id' => $item['id'],
@@ -228,11 +224,9 @@ class SaleController extends Controller
                 $sale->save();
                 foreach ($request->all()["products"] as $key => $item) {
                     $product = Product::findOrFail($item['id']);
-                    if ($product->category_id != 1) {
+                    
                         $product->stock = $product->stock - $item['quantity'];
-                    } else {
-                        //No se descuenta porque es servicio
-                    }
+                   
                     $product->save();
                     $newProductInSale = [
                         'product_id' => $item['id'],
@@ -315,10 +309,12 @@ class SaleController extends Controller
         return response()->json($products);
     }
     public function reprint(Request $request)
+   
     {
-        $sale = Sale::where('id', $request->sale_id)->with(['branchOffice.address', 'productsInSale.product'])->first();
+        $sale = Sale::where('id', $request->sale_id)->with(['branchOffice.address', 'productsInSale.product.brand','client'])->first();
         if($sale->status_credit == null){
-            return view('sales.ticket_new', ['sale' => $sale]);
+            //return $sale;
+            return view('sales.ticket_new', ['sale' => $sale]); 
         }else{
             $client = Client::where('id', '=', $sale->client_id)->first();
             return view('sales.creditNote', ['sale' => $sale, 'client' => $client]);
