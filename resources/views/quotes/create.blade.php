@@ -1,6 +1,6 @@
-hola mundo
 
-<!--<html>
+
+<html>
     <head>
         <style type="text/css">
             table {
@@ -20,7 +20,7 @@ hola mundo
     </head> 
     <body>
         <div style="text-align:center; margin-left: auto; margin-right: auto;">
-{{--             
+          
             <table style="width: 100%; margin-top:20px;">
                 <tr>
                     <th colspan="1" style=" border-color: transparent" >
@@ -40,19 +40,19 @@ hola mundo
             <table style="width: 100%; margin-top:20px;">
         
                     
-                <tr>-->
-                    <!--<th colspan="5" >
+                <tr>
+                    <th colspan="5" >
                       Origin {{$send[0]->trasnfer->origin->name}}
-                    </th>-->
-                <!--</tr>
-                <tr>-->
-                    <!--<th style="font-size: 10px"  colspan="5" >submitted to  {{$send[0]->trasnfer->branchOffice->name}} </th>-->
+                    </th>
+                </tr>
+                <tr>
+                    <th style="font-size: 10px"  colspan="5" >submitted to  {{$send[0]->trasnfer->branchOffice->name}} </th>
                   
-                <!--</tr>
-                <tr>-->
-                    <!--<th style="font-size: 10px"  colspan="5" >Fecha {{$send[0]->trasnfer->created_at->format('d-m-y')}} </th>-->
+                </tr>
+                <tr>
+                    <th style="font-size: 10px"  colspan="5" >Fecha {{$send[0]->trasnfer->created_at->format('d-m-y')}} </th>
                   
-                <!--</tr>
+                </tr>
                 <tr>
                     <th style="font-size: 10px" class="backgroundColor">CODIGO</th>
                     <th style="font-size: 10px" class="backgroundColor">PRODUCTO</th>
@@ -62,10 +62,10 @@ hola mundo
                     <th style="font-size: 10px" class="backgroundColor">CANTIDAD</th>
                     <th style="font-size: 10px" class="backgroundColor">DESCUENTO (%)</th>
                     <th style="font-size: 10px" class="backgroundColor">SUBTOTAL</th>
-                </tr>-->
+                </tr>
                 
                
-                   <!--<tr>
+                   <tr>
                         <td>{{$item->bar_code}}</td>
                         <td>{{$item->name}}</td>
                         <td>{{$item->brand_name}}</td>
@@ -77,8 +77,8 @@ hola mundo
                            $totals += $item->product->total
                         @endphp
                     
-                   </tr>-->
-<!--               
+                   </tr>
+               
              <tr>
                  <th colspan="6"></th>
                  <td>Total: ${{$totals}}</td>
@@ -86,4 +86,4 @@ hola mundo
             </table>
         </div>
     </body>
-</html>-->
+</html>

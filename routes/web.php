@@ -31,6 +31,8 @@ Route::post('/searchSaleById', 'SaleController@searchSaleById');
 Route::group(['middleware'=>'auth'], function(){
     Route::resource('users', 'UserController');
     Route::get('clients', 'UserController@indexClient');
+    Route::put('/client/{id}','ClientController@update');
+    Route::delete('/client/{id}','ClientController@destroy');
     Route::resource('expense', 'ExpenseController');
     Route::get('/expenses', 'ExpenseController@create');
     Route::post('/expenses-create', 'ExpenseController@store');
@@ -39,15 +41,15 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('sale-detail-history/{id}', 'ClientController@showDetailsHistory');    
     Route::post('abonar', 'ClientController@abonar');
     Route::post('reprint', 'SaleController@reprint');   
+    Route::post('quote', 'SaleController@quote');   
     Route::resource('marcas', 'BrandController');
     Route::resource('categorias', 'CategoryController');
     Route::get('perfil', function(){
         return view('user/profile',['user'=>auth()->user()]);
     });
     Route::resource('BranchOffice','BranchOfficeController');
-    // Route::resource('expense', 'ExpenseController');
-    Route::resource('quotes', 'QuotesController');
-    Route::post('quotes/download/excel', 'QuotesController@dowloadQuote');
+    Route::resource('quotes', 'QuoteController');
+    Route::post('quotes/download/excel', 'QuoteController@dowloadQuote');
     Route::resource('reportes', 'ReportController');
     Route::get('employeeByOffice/{id}','ReportController@employeeByOffice');
     Route::get('reporte', function(){
@@ -60,8 +62,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('searchByCode', 'SaleController@searchByCode');
     Route::get('caja', 'SaleController@showCaja');    
     Route::get('showCanceled', 'SaleController@showCanceledSale'); 
-    Route::get('credits', 'ClientController@showCredits');
-    Route::get('credit/busqueda', 'ClientController@buscar');
+    Route::get('credits', 'ClientController@showCredits');       
     Route::post('reprint/{id}', 'SaleController@reprint');    
     Route::resource('expense', 'ExpenseController');
     Route::resource('sale', 'SaleController');
@@ -111,7 +112,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('image','ImageController', ['only' => ['store', 'destroy']]);
     Route::resource('product', 'ProductController')->except(['update']);
     Route::post('product/{product}', 'ProductController@update');  
-    Route::resource('transfers','TransferController');  
+    Route::resource('/transfers','TransferController');  
 });
 
 

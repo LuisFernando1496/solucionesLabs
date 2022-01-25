@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use App\BranchOffice;
 use App\Client;
 use App\Http\Resources\ProductCollection;
+use App\Quote;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -319,6 +320,16 @@ class SaleController extends Controller
             $client = Client::where('id', '=', $sale->client_id)->first();
             return view('sales.ticket_new', ['sale' => $sale, 'client' => $client]);
         }
+    }
+    public function quote(Request $request)
+   
+    {
+        $sale = Quote::where('id', $request->sale_id)->with(['branchOffice.address', 'productsInQuotes.product.brand','client'])->first();
+       
+           
+            return view('sales.ticket_new', ['sale' => $sale]); 
+        
+          
     }
     /**
      * Display the specified resource.

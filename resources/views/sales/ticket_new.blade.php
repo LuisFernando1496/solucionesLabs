@@ -82,10 +82,6 @@ table.borde
         <th>   <p class="centrado">
         Calle {{$sale->branchOffice->address->street}},No {{$sale->branchOffice->address->ext_number}} <br>
         Colonia {{$sale->branchOffice->address->suburb}} <br>
-<<<<<<< HEAD
-        Atendido por {{Auth::user()->name}} {{Auth::user()->last_name}} <br>
-        Fecha: {{$sale->created_at->format('d-m-y h:i:s')}} <br>
-=======
         Tel. 961 141 1395 <br>
         Cel. 961 122 3970 <br>
         Personas Fisicas Con actividades Empresariales y Profesionales
@@ -93,7 +89,6 @@ table.borde
     </p></th>
         <th> 
         Fecha: {{$sale->created_at->format('d-m-y h:m:s')}} <br>
->>>>>>> 9661477e707743263668148577f2330f4a0384d2
         Folio: {{$sale->id}}
     </th>
     </thead>
@@ -109,7 +104,7 @@ table.borde
     <section style="display: flex; justify-content: space-between; align-items: center;">
         <table style="width: 100%">
             <tr>
-                 <thead style="font-size: 90%">
+                 <thead style="font-size: 80%">
                     <th >CANTIDAD</th>
                        <th >MARCA</th>
                     <th>PRODUCTO</th>
@@ -119,7 +114,7 @@ table.borde
             </thead>
             <hr>
             </tr>
-           <tbody style="text-align: center;font-size: 86%">
+           <tbody style="text-align: center;font-size: 76%">
            
                @foreach( $variable as $product)
           
@@ -142,24 +137,8 @@ table.borde
         </table>
         
     </section>
-<<<<<<< HEAD
-    <hr>
-    @foreach($sale->productsInSale as $product)
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div id="pro-td">
-                {{$product->quantity}}
-            </div>
-            <div id="pre-td" style="text-align: center;">{{$product->product->name}} </div>
-            <div id="can-td" style="text-align: center; margin-right:3px !important;">${{number_format($product->sale_price,2,'.',',')}} </div>
-            <div id="can-td" style="text-align: center; margin-right:3px !important;">@if($sale->amount_discount > 0)${{number_format($sale->amount_discount,2,'.',',')}}@else - @endif</div>
-            <div id="subtotal" style="text-align: center;">${{number_format($sale->cart_total,2,'.',',')}} </div>
-        </div>
-        <hr>
-    @endforeach
-=======
     <hr/>
 
->>>>>>> 9661477e707743263668148577f2330f4a0384d2
     <div id="total">
         
         @if($sale->discount != null)Descuento:  %{{number_format($sale->discount,2,'.',',')}}@endif

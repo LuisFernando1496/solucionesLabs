@@ -31,7 +31,7 @@ class QuoteExport implements FromView
     
     public function view(): View
     {
-        $send = Product::join('brnads', 'products.brand_id', 'brands.id')
+        $send = Product::join('brands', 'products.brand_id', 'brands.id')
         ->join('categories', 'products.category_id', 'categories.id')
         ->where('products.branch_office_id', Auth::user()->branch_office_id)->where("products.bar_code", "=", $this->dataGlobal->search)
         ->where("products.stock", ">", 0)->where("products.status", "=", true)

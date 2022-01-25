@@ -102,7 +102,7 @@
         </div>
       @endforeach
     @endif
-    @if(isset($box))
+
         <div >
             <div class="row">
                 <div class="col-md-10">
@@ -278,9 +278,9 @@
                                             <label for="client">Cliente</label>
                                             <select class="custom-select" name="client_id" id="client_id">
                                             <option value="">Cliente general</option>
-                                                @foreach($clients as $client)
+                                          {{--       @foreach($clients as $client)
                                                     <option value="{{$client->id}}">{{$client->name}} {{$client->last_name}}</option>
-                                                @endforeach
+                                                @endforeach--}}
                                             </select>
                                         </div>
                                         <div class="col-md-12">
@@ -310,12 +310,6 @@
                                             </div>
                                         </div>
                                     </div>-->
-                                    <div class="row my-4 mx-2">
-                                        <div class="col-md-12">
-                                            <label for="">Nombre del cliente</label>
-                                            <input type="text" class="form-control" id="name_client" name="name_client" placeholder="Nombre completo"/>
-                                        </div>
-                                    </div>
                                     
                                     <div class="row my-4 mx-2">
                                         <div class="col-md-12">
@@ -330,41 +324,8 @@
                 </div>
             </form> 
         </div>
-    @else
-        <div class="card p-4 mx-5">
-            <div class="row d-flex justify-content-center">
-                <h5>Abrir caja</h5>
-            </div>
-            @if($errors->any())
-                @foreach($errors->all() as $error)
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{$error}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                @endforeach
-            @endif
-            <form action="cashClosing" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label for="branch_office_id">Sucursal</label>
-                    <select class="custom-select" id="branch_office_id" name="branch_office_id">
-                        @foreach ($branches as $branch)
-                            <option value="{{$branch->id}}">{{$branch->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="box_id">Caja</label>
-                    <select class="custom-select" id="box_id" name="box_id" required>
-                    </select>
-                </div>
-                <button id="openBoxButton" type="submit" class="btn btn-primary btn-block mt-3" disabled>ABRIR CAJA</button>
-            </form>
-        </div>
-    @endif
-    <form id="reprintForm" target="_blank" action="/reprint" method="post">
+   
+    <form id="reprintForm" target="_blank" action="/quote" method="post">
         <input id="saleReprintId" type="hidden" name="sale_id">
     </form>
 </div>
@@ -776,7 +737,6 @@
                     items.push({
                         id : $(this).data('id'),
                         quantity : quantity,
-                        discount : discount,
                         sale_price : price,
                         total : total,
                         subtotal : subtotal
@@ -785,11 +745,9 @@
                 let request = {
                     sale : {
                         //payment_type: $('#payment_type').find(':selected').val(),
-                        amount_discount: totalDiscount,
-                        discount: parseInt($('#additional_discount').val()),
+                       
                         cart_subtotal: generalSubtotal,
                         cart_total: totalSale,
-                        nameClient: $("#name_client").val();
                         //turned: parseInt($('#turned').text()),
                         //ingress: parseInt($('#ingress').val()),
                         //client_id: $('#client_id').find(':selected').val()
@@ -797,31 +755,27 @@
                     products: items
                 };
                 $.ajax({
-                    url: "/quotes/download/excel",
+                    url: "/quotes/download/excel", 
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    type: 'GET',
+                    type: 'Post',
                     contentType: "application/json; charset=iso-8859-1",
                     data: JSON.stringify(request),
                     dataType: 'html',
                     success: function(data) {                                                
-                        /*if(JSON.parse(data).success){
+                        if(JSON.parse(data).success){
                             //console.log(JSON.parse(data).data.products_in_sale)
-                            console.log('success')
+                         //   console.log('success')
                             $('#saleReprintId').val(JSON.parse(data).data.id)
                             $('#reprintForm').submit()
-                            location.reload();   
+                            location.reload();//console.log(JSON.parse(data).data.id);   
                         }   
                         else{
                             alert(data);
                             $('#paymentButton').prop('disabled',false);
                             console.log(JSON.parse(data));
-                        } */
-                        let employees = JSON.parse(data);
-                        employees.forEach(employee => {
-                            $('#employee').append('<option value="'+employee.id+'">'+employee.name+'</option>');
-                        });
+                        } 
                     },
                     error: function(e) {
                         console.log("ERROR", e);
