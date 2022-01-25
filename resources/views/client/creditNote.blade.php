@@ -66,7 +66,7 @@ img {
             <div id="can-td" style="text-align: center; margin-right:1em !important;">${{number_format($product->sale_price,2,',','.')}} </div>
             <div id="can-td" style="text-align: center; margin-right:1em !important;">@if($product->discount != 0)${{number_format($product->discount,2,',','.')}}@else-@endif</div> 
             <div id="can-td" style="text-align: center; margin-right:1em !important;">${{number_format($pay->deposit,2,',','.')}} </div>
-            <div id="subtotal" style="text-align: center;">${{number_format($pay->leftover,2,',','.')}} </div>
+            <div id="subtotal" style="text-align: center;">${{number_format($sale->cart_total,2,'.',',')}} </div>
         </div>
         <hr>
     @endforeach
@@ -78,6 +78,10 @@ img {
         Subtotal:  ${{number_format($sale->cart_subtotal,2,'.',',')}}
         <br>
         Total: ${{number_format($sale->cart_total,2,'.',',')}}
+        <br>
+        Abono: ${{number_format($pay->deposit,2,',','.')}}
+        <br>
+        Saldo restante: ${{number_format($pay->leftover,2,',','.')}}
     </div>
     <p class="centrado">RFC:{{Auth::user()->rfc}} </p>
     <p class="centrado">Email: {{Auth::user()->email}}</p>
