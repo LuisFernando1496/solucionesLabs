@@ -81,7 +81,8 @@ class QuoteController extends Controller
                        
                         DB::commit();
                         
-                        return response()->json(['success' => true, 'data' =>Quote::where('id', $cotizacion->id)->with(['productsInQuotes.product.category', 'branchOffice', 'user'])->first() ]);
+                        return response()->json(['success' => true, 'data' =>Quote::where('id', $cotizacion->id)->with(['productsInQuotes.product.category', 'branchOffice', 'user'])->first(),
+                                                 'clientName'=>$request->all()['clientName'] ]);
                     } catch (\Throwable $th) {
                         DB::rollBack();
                         return response()->json(['success' => false, 'error' => $th]);

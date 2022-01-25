@@ -97,7 +97,12 @@ table.borde
     @if(!empty($cliente))
     Cliente: {{$cliente->name}}  @if($cliente->last_name != 'NO APLICA'){{ $cliente->last_name}} @endif @endif
 
- 
+    @if ($title == 'Cotizacion')
+    Cliente: {{$clientName}}
+    <hr>
+    Esta nota es informativa
+    Precios sujetos a cambios sin previo aviso.
+    @endif
    <hr>
   
   
@@ -144,7 +149,9 @@ table.borde
         @if($sale->discount != null)Descuento:  %{{number_format($sale->discount,2,'.',',')}}@endif
       
         <br>
-        Pago en efectivo
+        @if ($title != 'Cotizacion')   
+         Pago en efectivo
+        @endif
          <br>
         Total: ${{number_format($total-$descuento,2,'.',',')}}
     </div>

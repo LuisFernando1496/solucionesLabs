@@ -326,8 +326,8 @@ class SaleController extends Controller
     {
         $sale = Quote::where('id', $request->sale_id)->with(['branchOffice.address', 'productsInQuotes.product.brand','client'])->first();
        
-           
-            return view('sales.ticket_new', ['sale' => $sale]); 
+      
+            return view('sales.ticket_new', ['sale' => $sale, 'clientName'=>$request->name]); 
         
           
     }

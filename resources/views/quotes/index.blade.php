@@ -254,13 +254,15 @@
                                             <h6 class="font-weight-bold">$ <span id="totalSale">0.00</span> MXN</h6>
                                         </div>
                                     </div>
-                                    {{-- <div class="row mx-2">
+                                    <div class="row mx-2">
                                         <div class="col-md-6">
+                                            <h6 class="font-weight-bold">Total a pagar:</h6>
                                         </div>
                                         <div class="col-md-6">
-                                            <h6 class="font-weight-bold">$ <span id="totalSaleUSD">0.00</span> USD</h6>
+                                            <h6 class="font-weight-bold">$ <span id="totalSale">0.00</span> MXN</h6>
                                         </div>
-                                    </div> --}}
+                                    </div>
+                                   
                                 </div>
                                 <div class="col-md-12 my-2">
                                     <div class="row mx-2">
@@ -283,21 +285,7 @@
                                                 @endforeach--}}
                                             </select>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="float-right pt-1">
-                                                <input hidden type="radio" id="USD" name="USD">
-                                            </div>
-                                            <div class="float-left pt-1">
-                                                <input hidden type="radio" id="MXN" name="MXN" checked>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="ingress">Pago con</label>
-                                                <input type="number" step="any" min="0" class="form-control" id="ingress" required/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        
                                     <div class="pt-1">
                                         <div class="row mx-2">
                                             <div class="col-md-6">
@@ -310,6 +298,13 @@
                                             </div>
                                         </div>
                                     </div>-->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="clientName">Nombre del cliente</label>
+                                                <input type="text"  class="form-control" id="clientName" />
+                                            </div>
+                                        </div>
+                                    </div>
                                     
                                     <div class="row my-4 mx-2">
                                         <div class="col-md-12">
@@ -327,6 +322,8 @@
    
     <form id="reprintForm" target="_blank" action="/quote" method="post">
         <input id="saleReprintId" type="hidden" name="sale_id">
+        <input id="nameClient" type="hidden" name="name">
+
     </form>
 </div>
 @endsection
@@ -744,7 +741,7 @@
                 });
                 let request = {
                     sale : {
-                        //payment_type: $('#payment_type').find(':selected').val(),
+                       
                        
                         cart_subtotal: generalSubtotal,
                         cart_total: totalSale,
@@ -752,7 +749,8 @@
                         //ingress: parseInt($('#ingress').val()),
                         //client_id: $('#client_id').find(':selected').val()
                     },
-                    products: items
+                    products: items,
+                    clientName: $('#clientName').val(),
                 };
                 $.ajax({
                     url: "/quotes/download/excel", 
@@ -768,6 +766,7 @@
                             //console.log(JSON.parse(data).data.products_in_sale)
                          //   console.log('success')
                             $('#saleReprintId').val(JSON.parse(data).data.id)
+                            $('#nameClient').val(JSON.parse(data).clientName)
                             $('#reprintForm').submit()
                             location.reload();//console.log(JSON.parse(data).data.id);   
                         }   
@@ -781,6 +780,8 @@
                         console.log("ERROR", e);
                     },
                 });
+                //console.log(request);
+               
             }
             function getBoxes(){
                 $('#box_id').empty();
