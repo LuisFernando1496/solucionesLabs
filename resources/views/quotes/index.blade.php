@@ -310,6 +310,12 @@
                                             </div>
                                         </div>
                                     </div>-->
+                                    <div class="row my-4 mx-2">
+                                        <div class="col-md-12">
+                                            <label for="">Nombre del cliente</label>
+                                            <input type="text" class="form-control" id="name_client" name="name_client" placeholder="Nombre completo"/>
+                                        </div>
+                                    </div>
                                     
                                     <div class="row my-4 mx-2">
                                         <div class="col-md-12">
@@ -783,6 +789,7 @@
                         discount: parseInt($('#additional_discount').val()),
                         cart_subtotal: generalSubtotal,
                         cart_total: totalSale,
+                        nameClient: $("#name_client").val();
                         //turned: parseInt($('#turned').text()),
                         //ingress: parseInt($('#ingress').val()),
                         //client_id: $('#client_id').find(':selected').val()
@@ -799,7 +806,7 @@
                     data: JSON.stringify(request),
                     dataType: 'html',
                     success: function(data) {                                                
-                        if(JSON.parse(data).success){
+                        /*if(JSON.parse(data).success){
                             //console.log(JSON.parse(data).data.products_in_sale)
                             console.log('success')
                             $('#saleReprintId').val(JSON.parse(data).data.id)
@@ -810,7 +817,11 @@
                             alert(data);
                             $('#paymentButton').prop('disabled',false);
                             console.log(JSON.parse(data));
-                        } 
+                        } */
+                        let employees = JSON.parse(data);
+                        employees.forEach(employee => {
+                            $('#employee').append('<option value="'+employee.id+'">'+employee.name+'</option>');
+                        });
                     },
                     error: function(e) {
                         console.log("ERROR", e);

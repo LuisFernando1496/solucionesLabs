@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ticket</title>    
+    <title>Ticket de credito</title> 
 </head>
 <body>
 
@@ -56,18 +56,14 @@ img {
         Colonia {{$sale->branchOffice->address->suburb}} <br>
         Atendido por {{Auth::user()->name}} {{Auth::user()->last_name}} <br>
         Fecha: {{$sale->created_at->format('d-m-y h:i:s')}} <br>
-        Folio: {{$sale->id}}
-        {{--Sucursal {{Auth::user()->branchOffice->name}} <br>
-        Calle {{Auth::user()->branchOffice->address->street}} numero {{Auth::user()->branchOffice->address->numero_exterior}},Colonia {{Auth::user()->branchOffice->address->suburb}}, <br>
-        Fecha: {{$sale->created_at}} <br>
-        Folio: {{$sale->id}}--}}
+        Folio: {{$sale->id}} <br>
+        ABONO DE PAGO A CREDITO
     </p>
     <section id="ticket" style="display: flex; justify-content: space-between; align-items: center;">
         <div id="pro-th">CANT</div>
         <div id="pre-th">PRO  <br></div>
-        <div id="cod-th">P/U</div>
-        <div id="subtotal">DES</div>
-        <div id="subtotal">IMP</div>
+        <div id="subtotal">DEP</div>
+        <div id="subtotal">REST</div>
     </section>
     <hr>
     @foreach($sale->productsInSale as $product)
@@ -76,9 +72,8 @@ img {
                 {{$product->quantity}}
             </div>
             <div id="pre-td" style="text-align: center;">{{$product->product->name}} </div>
-            <div id="can-td" style="text-align: center; margin-right:3px !important;">${{number_format($product->sale_price,2,'.',',')}} </div>
-            <div id="can-td" style="text-align: center; margin-right:3px !important;">@if($sale->amount_discount > 0)${{number_format($sale->amount_discount,2,'.',',')}}@else - @endif</div>
-            <div id="subtotal" style="text-align: center;">${{number_format($sale->cart_total,2,'.',',')}} </div>
+            <div id="can-td" style="text-align: center; margin-right:3px !important;">${{number_format($pay->deposit,2,'.',',')}}</div>
+            <div id="subtotal" style="text-align: center;">${{number_format($pay->leftover,2,'.',',')}} </div>
         </div>
         <hr>
     @endforeach
@@ -92,20 +87,15 @@ img {
         @endif
         =========================
         <br>
-        @if($sale->discount != null)Descuento:  %{{number_format($sale->discount,2,'.',',')}}@endif
+        @if($sale->discount != null)Descuento: {{number_format($sale->discount,2,'.',',')}}% @endif
         =========================
         <br>
         Subtotal:  ${{number_format($sale->cart_subtotal,2,'.',',')}}
         =========================
         <br>
-        Total: ${{number_format($sale->cart_total,2,'.',',')}}
-        {{--Pago con tarjeta : $0.00 <br>
-        Descuento: $0.00 <br>
-        ============ <br>
-        Subtotal: ${{number_format($total,2,'.',',')}}
-        ============ <br>
-        Total: ${{number_format($subtotal,2,'.',',')}} <br>
-        ============ <br>--}}
+        Total: ${{number_format($sale->cart_total,2,'.',',')}} <br>
+        Deposito: ${{number_format($pay->deposit, 2, '.', ',')}} <br>
+        Restante: ${{number_format($pay->leftover, 2, '.', ',')}}
     </div>
     <p class="centrado">RFC:{{Auth::user()->rfc}} </p>
     <p class="centrado">Email: {{Auth::user()->email}}</p>

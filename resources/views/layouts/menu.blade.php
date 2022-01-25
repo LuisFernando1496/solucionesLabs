@@ -7,7 +7,7 @@
             <a href="/caja" class="list-group-item list-group-item-action {{ strpos(Request::url(),'caja') ? 'active' : '' }}">Vender</a>
             <a href="/sale" class="list-group-item list-group-item-action {{ strpos(Request::url(),'sale') ? 'active' : '' }}">Ventas</a>
             <a href="/quotes" class="list-group-item list-group-item-action {{ strpos(Request::url(),'quotes') ? 'active' : '' }}">Cotizaciones</a>
-            @if(Auth::user()->rol_id!==2)
+            @if(Auth::user()->rol_id===1)
                 <a href="/initialCash" class="list-group-item list-group-item-action {{ strpos(Request::url(),'initialCash') ? 'active' : '' }}">Establecer monto Inicial</a>                
                 <a href="/users" class="list-group-item list-group-item-action {{ strpos(Request::url(),'users') ? 'active' : '' }}">Usuarios</a>
                 <a href="/clients" class="list-group-item list-group-item-action {{ strpos(Request::url(),'clients') ? 'active' : '' }}">Clientes</a>
@@ -24,6 +24,12 @@
                 <a href="/showCanceled" class="list-group-item list-group-item-action {{ strpos(Request::url(),'showCanceled') ? 'active' : '' }}">Devoluciones</a>
                 <a href="/credits" class="list-group-item list-group-item-action {{ strpos(Request::url(),'credits') ? 'active' : '' }}">Creditos</a>
                 <a href="/transfers" class="list-group-item list-group-item-action {{ strpos(Request::url(),'transfers') ? 'active' : '' }}">Traspasos</a>
+            @elseif(Auth::user()->rol_id===3)
+                <a href="/clients" class="list-group-item list-group-item-action {{ strpos(Request::url(),'clients') ? 'active' : '' }}">Clientes</a>
+                <a href="/product" class="list-group-item list-group-item-action {{ strpos(Request::url(),'product') ? 'active' : '' }}">Productos</a>
+                <a href="/expense" class="list-group-item list-group-item-action {{ strpos(Request::url(),'expense') ? 'active' : '' }}">Gastos</a>
+                <a href="/reportes" class="list-group-item list-group-item-action {{ strpos(Request::url(),'reportes') ? 'active' : '' }}">Reportes</a>
+                <a href="/credits" class="list-group-item list-group-item-action {{ strpos(Request::url(),'credits') ? 'active' : '' }}">Creditos</a>
             @endif            
         @endauth
     </ul>

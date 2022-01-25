@@ -118,7 +118,7 @@
                             <select class="browser-default custom-select" name="rol_id" id="rol_id" required>
                                 <option value="0" disabled selected>Rol:</option>
                                 @foreach($rols as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -126,7 +126,7 @@
                             <select class="browser-default custom-select" name="branch_office_id" id="branch_office_id" required>
                                 <option value="0" disabled selected>Sucursal:</option>
                                 @foreach($offices as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
 
                             </select>
@@ -219,7 +219,7 @@
                             <select class="browser-default custom-select" name="rol_id" id="rol_id_edit" required>
                                 <option value="0" disabled selected>Rol:</option>
                                 @foreach($rols as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
                             </select>
                         </div>

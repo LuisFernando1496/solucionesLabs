@@ -552,12 +552,39 @@ class ReportController extends Controller
             "users.name as seller",
             "users.last_name as seller_lastName",
             "product_in_sales.created_at as date",
+            "sales.branch_office_id",
+            "sales.folio_branch_office as folio",
+            "sales.client_id as client_id",
+            )
+            ->where("sales.status",  "=", true)
+            ->whereBetween('sales.created_at',[$from, $to])
+            ->get();
+
+            $clients = Client::where("status", "=", true)->get();
+            
+            /*   COPIA DE LOS PRODUCTOS SELECCIONADOS 
+            $p = ProductInSale::join("sales" ,"sales.id", "=" ,"product_in_sales.sale_id")
+            ->join("users","users.id","=","sales.user_id")
+            ->join("products","products.id","=","product_in_sales.product_id")
+            ->join("brands","brands.id","=","products.brand_id")
+            ->join("categories","categories.id","=","products.category_id")
+            ->select("products.name as product_name",
+            "categories.name as category",
+            "brands.name as brand",
+            "product_in_sales.quantity as quantity",
+            "products.cost as cost",
+            "product_in_sales.sale_price as sale_price",
+            "product_in_sales.discount as amount_discount",
+            "product_in_sales.total as total",
+            "users.name as seller",
+            "users.last_name as seller_lastName",
+            "product_in_sales.created_at as date",
             "sales.branch_office_id"
             )
             ->where("sales.status",  "=", true)
             ->whereBetween('sales.created_at',[$from, $to])
             ->get();
-            
+             */
 
             $b = DB::table('branch_offices')
             ->distinct()
@@ -603,6 +630,7 @@ class ReportController extends Controller
             "products"=>$p,
             "branchOffice" => $b,
             "to" => $to,
+            "clientes" => $clients,
             "from" =>$showFrom]);
 
             

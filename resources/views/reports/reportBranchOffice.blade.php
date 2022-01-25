@@ -36,24 +36,24 @@
             @if (Auth::user()->rol_id == 1)
             <table style="width: 100%; margin-top:20px;">
                 <tr>
-                    <th colspan="12" class="backgroundColor">
+                    <th colspan="15" class="backgroundColor">
                         SUCURSAL
                     </th>
                 </tr>
                 <tr>
-                    <td colspan="12">
+                    <td colspan="15">
                         {{$b->name}}
                     </td>
                 </tr>
             @else
             <table style="width: 100%; margin-top:20px;">
                 <tr>
-                    <th colspan="10" class="backgroundColor">
+                    <th colspan="13" class="backgroundColor">
                         SUCURSAL
                     </th>
                 </tr>
                 <tr>
-                    <td colspan="10">
+                    <td colspan="13">
                         {{$b->name}}
                     </td>
                 </tr>
@@ -74,38 +74,53 @@
                     @endif
                     <th style="font-size: 10px" class="backgroundColor">TOTAL</th>
                     <th style="font-size: 10px" class="backgroundColor">VENDEDOR</th>
+                    <th style="font-size: 10px" class="backgroundColor">FOLIO<br>VENTA</th>
+                    <th style="font-size: 10px" class="backgroundColor">CLIENTE</th>
+                    <th style="font-size: 10px" class="backgroundColor"># CLIENTE</th>
                     <th style="font-size: 10px" class="backgroundColor">FECHA</th>
                     <th style="font-size: 10px" class="backgroundColor">HORA</th>
                 </tr>
                 @foreach ($products as $p)
-                @if ($b->id == $p->branch_office_id )
-                <tr>
-                    
-                    <td>{{$p->product_name}}</td>
-                    <td>{{$p->category}}</td>
-                    @if ($p->brand == null)
-                    <td>N/A</td>
-                    @else
-                    <td>{{$p->brand }}</td>
-                    @endif
+                    @if ($b->id == $p->branch_office_id )
+                    <tr>
+                        
+                        <td>{{$p->product_name}}</td>
+                        <td>{{$p->category}}</td>
+                        @if ($p->brand == null)
+                        <td>N/A</td>
+                        @else
+                        <td>{{$p->brand }}</td>
+                        @endif
 
-                    <td>{{$p->quantity}}</td>
-                    @if (Auth::user()->rol_id == 1 )
-                    <td>${{$p->cost}}</td>
-                    @endif
-                    <td>${{$p->sale_price}}</td>
-                    <td>${{$p->amount_discount * $p->quantity}}</td>
-                    @if (Auth::user()->rol_id == 1 )
-                    <td>${{$p->cost * $p->quantity}}</td>
-                    @endif
-                    <td>${{$p->total}}</td> 
-                    <td>{{$p->seller.' '.$p->seller_lastName}}</td> 
-                    <td>{{date('Y-m-d',strtotime($p->date))}}</td> 
-                    <td>{{date('H:m:s',strtotime($p->date))}}</td> 
+                        <td>{{$p->quantity}}</td>
+                        @if (Auth::user()->rol_id == 1 )
+                        <td>${{$p->cost}}</td>
+                        @endif
+                        <td>${{$p->sale_price}}</td>
+                        <td>${{$p->amount_discount * $p->quantity}}</td>
+                        @if (Auth::user()->rol_id == 1 )
+                        <td>${{$p->cost * $p->quantity}}</td>
+                        @endif
+                        <td>${{$p->total}}</td> 
+                        <td>{{$p->seller.' '.$p->seller_lastName}}</td>
+                        <td>{{$p->folio}}</td>
+                        @if($p->client_id != null)
+                            @foreach($clientes as $key => $client)
+                                @if($client->id == $p->client_id)
+                                    <td>{{$client->name}}</td>
+                                    <td>{{$client->id}}</td>
+                                @endif
+                            @endforeach
+                        @else
+                            <td>N/A</td>
+                            <td>N/A</td>
+                        @endif
+                        <td>{{date('Y-m-d',strtotime($p->date))}}</td> 
+                        <td>{{date('H:m:s',strtotime($p->date))}}</td> 
 
 
-                </tr>
-                @endif
+                    </tr>
+                    @endif
                 @endforeach
             </table>
             @endforeach

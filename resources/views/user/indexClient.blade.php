@@ -47,7 +47,7 @@
                         </div>
                         <div class="form-group my-3 mx-3">
                             <label for="email">Correo electrónico</label>
-                            <input type="email" class="form-control" name="email" id="email" value="" placeholder="example@gmail.com" required />
+                            <input type="email" class="form-control" name="email" id="email" value="" placeholder="example@gmail.com"/>
                         </div>
                         <div class="form-group my-3 mx-3">
                             <label for="address">Dirección</label>
@@ -103,7 +103,7 @@
                         </div>
                         <div class="form-group my-3 mx-3">
                             <label for="email">Correo electrónico</label>
-                            <input type="email" class="form-control" name="email" id="email_edit" value="" placeholder="example@gmail.com" required />
+                            <input type="email" class="form-control" name="email" id="email_edit" value="" placeholder="example@gmail.com"/>
                         </div>
                         <div class="form-group my-3 mx-3">
                             <label for="address">Dirección</label>

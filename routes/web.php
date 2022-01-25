@@ -60,7 +60,8 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('searchByCode', 'SaleController@searchByCode');
     Route::get('caja', 'SaleController@showCaja');    
     Route::get('showCanceled', 'SaleController@showCanceledSale'); 
-    Route::get('credits', 'ClientController@showCredits');       
+    Route::get('credits', 'ClientController@showCredits');
+    Route::get('credit/busqueda', 'ClientController@buscar');
     Route::post('reprint/{id}', 'SaleController@reprint');    
     Route::resource('expense', 'ExpenseController');
     Route::resource('sale', 'SaleController');

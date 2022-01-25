@@ -12,7 +12,7 @@ hola mundo
                 text-align: center;
                 border-color: #424242;
                 font-size: 12px;
-            }
+            }s
             .backgroundColor{
                 background: red;
             }

@@ -63,14 +63,14 @@ img {
             </div>
             <div id="pre-td" style="text-align: center;">{{$product->product->name}} </div>
             <div id="can-td" style="text-align: center; margin-right:1em !important;">${{number_format($product->sale_price,2,',','.')}} </div>
-            <div id="can-td" style="text-align: center; margin-right:1em !important;">@if($product->discount != 0)${{number_format($product->discount,2,',','.')}}@else-@endif</div>
-            <div id="subtotal" style="text-align: center;">${{number_format($product->subtotal,2,',','.')}} </div>
+            <div id="can-td" style="text-align: center; margin-right:1em !important;">{{$sale->amount_discount}}</div>
+            <div id="subtotal" style="text-align: center;">${{number_format($sale->cart_total,2,',','.')}} </div>
         </div>
         <hr>
     @endforeach
     <div id="total">
-        Pago a crédito: {{$client->name." ".$client->last_name}}
-        Dias de pago: {{$client->payment_days}}
+        Pago a crédito: {{$client->name." ".$client->last_name}} <br>
+        Dias de pago: {{$client->payment_days}} <br>
         @if($sale->discount != null)Descuento:  %{{number_format($sale->discount,2,'.',',')}}@endif
         <br>
         Subtotal:  ${{number_format($sale->cart_subtotal,2,'.',',')}}

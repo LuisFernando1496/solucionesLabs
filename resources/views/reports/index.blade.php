@@ -18,7 +18,7 @@
           <h5>Generar reporte</h5>
         </div>
         <form id="request" onsubmit="addRequestParams()">
-            @csrf  
+            @csrf
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">

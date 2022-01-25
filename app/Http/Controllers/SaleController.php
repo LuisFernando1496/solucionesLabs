@@ -46,9 +46,9 @@ class SaleController extends Controller
     {
 
         if (Auth::user()->rol_id == 1) {
-            $sales = Sale::where('status', true)->with(['productsInSale.product.category', 'branchOffice', 'user'])->get();
+            $sales = Sale::with(['productsInSale.product.category', 'branchOffice', 'user'])->orderBy('id', 'DESC')->get();
         } else {
-            $sales = Sale::where('branch_office_id', Auth::user()->branch_office_id)->where('status', true)->with(['productsInSale.product.category', 'branchOffice', 'user'])->get();
+            $sales = Sale::where('branch_office_id', Auth::user()->branch_office_id)->with(['productsInSale.product.category', 'branchOffice', 'user'])->orderBy('id', 'DESC')->get();
         }
 
         return view('sales.index', ['sales' => $sales, 'box' => CashClosing::where('user_id', '=', Auth::user()->id)->where('status', '=', false)->first()]);
@@ -321,7 +321,7 @@ class SaleController extends Controller
             return view('sales.ticket_new', ['sale' => $sale]);
         }else{
             $client = Client::where('id', '=', $sale->client_id)->first();
-            return view('sales.creditNote', ['sale' => $sale, 'client' => $client]);
+            return view('sales.ticket_new', ['sale' => $sale, 'client' => $client]);
         }
     }
     /**

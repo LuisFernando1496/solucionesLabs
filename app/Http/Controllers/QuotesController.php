@@ -28,7 +28,7 @@ class QuotesController extends Controller
         }
 
         if (CashClosing::where('user_id', '=', Auth::user()->id)->where('status', '=', false)->count() == 0) {
-            return view('quotes.index', ["branches" => $branches]);
+            return view('quotes.index', ["branches" => $branches, 'clients' => Client::where('status', true)->get()]);
         } else {
             return view('quotes.index', [
                 'box' => CashClosing::where('user_id', '=', Auth::user()->id)->where('status', '=', false)->first(), "branches" => $branches, 'categories' => Category::all(),
