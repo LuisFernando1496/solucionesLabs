@@ -62,7 +62,7 @@ class ClientController extends Controller
     {
 
         $client= Client::findOrFail($request->client_id);
-        $sale= Sale::findOrFail($request->sale_id);
+        $sale = Sale::findOrFail($request->sale_id);
         if($request->leftover==0){
             try {
                 DB::beginTransaction();
@@ -82,10 +82,12 @@ class ClientController extends Controller
 
                 DB::commit();
                 $pay = Payment::where('sale_id', $request->sale_id)->latest()->first();
+                $history = Payment::where('sale_id', $request->sale_id)->get();
                 return view('sales.tickect_credit', [
                     'sale' => $sale, 
                     'client' => $client,
-                    'pay' => $pay
+                    'pay' => $pay,
+                    'history' => $history,
                 ]);
             } catch (\Throwable $th) {
                 DB::rollback();
@@ -109,10 +111,12 @@ class ClientController extends Controller
                 DB::commit();
                 $pay = Payment::where('sale_id', $request->sale_id)->latest()->first();
                 //$sale = Payment::join('sales','sales.id','sale_id')->where('sale_id',$request->id)->get();
+                $history = Payment::where('sale_id', $request->sale_id)->get();
                 return view('sales.tickect_credit', [
                     'sale' => $sale, 
                     'client' => $client, 
-                    'pay' => $pay
+                    'pay' => $pay,
+                    'history' => $history,
                 ]);
                 //return back()->with(["success" => "Éxito al realizar la operación2."]);
             } catch (\Throwable $th) {

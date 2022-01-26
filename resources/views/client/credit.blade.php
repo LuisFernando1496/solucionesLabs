@@ -78,7 +78,11 @@
                         @endforeach
                         ${{$total}}.00
                     </td>
+                    @if(sizeof($item->payments) >= 1)
                     <td>${{$item2->leftover}}</td>
+                    @else
+                    <td>$0.00</td>
+                    @endif
                     <td>{{$item->created_at}}</td>
                     @if($item->status_credit=='adeudo')
                     <td><div class="card" style="text-align:center; background-color:red">
