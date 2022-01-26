@@ -7,6 +7,7 @@ use App\Expense;
 use App\BranchOffice;
 use App\CashClosing;
 use App\Product;
+use App\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\Paginator;
@@ -19,7 +20,8 @@ class PurchaseController extends Controller
     {
         if (Auth::user()->rol_id == 1) {
             $products = Product::where('status', true)->where('branch_office_id',Auth::user()->branch_office_id)->get();
-            return view('purchase/index', ['products' => $products]);
+            $proveedor = Provider::all();
+            return view('purchase/index', ['products' => $products,'proveedor'=>$proveedor]);
         } else {
             return back()->withErrors(["error" => "No tienes permisos"]);
         }

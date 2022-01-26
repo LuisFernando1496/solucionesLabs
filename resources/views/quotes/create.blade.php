@@ -31,7 +31,7 @@
                     </th>
                 </tr>
 
-            </table> --}}
+            </table> 
 
             @php
                 $totals = 0;

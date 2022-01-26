@@ -1,5 +1,5 @@
 <div class="bg-light border-right vh-100" id="sidebar-wrapper">
-    <div class="sidebar-heading" style="background-color: white;"><img class="responsive-img" src="{{asset('/logo_inusual.png')}}" /></div>
+    <div class="sidebar-heading" style="background-color: white;"> <img class="responsive-img" src="{{asset('/solucioneslab.png')}}" style="width:200px;height:150px" /></div>
 
     <ul class="list-group list-group-flush overflow-auto">
         @auth

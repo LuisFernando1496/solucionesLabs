@@ -52,8 +52,10 @@
     <table class="display table table-striped table-bordered" id="example" style="font-size:0.85em; width:100%">
         <thead class="black white-text">
             <tr>
+                <th scope="col">Codigo de barras</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Categoria</th>
+                <th scope="col">Proveedor</th>
                 <th scope="col">Stock</th>
                 <th scope="col">Costo pza</th>
                 <th scope="col">Cantidad</th>
@@ -63,8 +65,16 @@
         <tbody id="mydata">
             @foreach ($products as $item)
             <tr>
+                <th scope="row">{{$item->bar_code}}</th>
                 <th scope="row">{{$item->name}}</th>
                 <th scope="row">{{$item->category->name}}</th>
+              <th scope="row">  @foreach($proveedor as $itemPro)
+                    @if($item->provider_id == $itemPro->id)
+                      {{$itemPro->name}}
+                    @endif
+              
+                @endforeach</th>
+                
                 <th scope="row">{{$item->stock}}</th>
                 <th scope="row">{{$item->cost}}</th>
                 <th scope="row"><input type="number" name="" id="quantity{{$item->id}}"></th>

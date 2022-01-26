@@ -57,7 +57,7 @@ Route::group(['middleware'=>'auth'], function(){
         return view('reports/report',['user'=>auth()->user()]);
     });
     Route::resource('branchOffice','BranchOfficeController');
-
+    Route::get('credit/busqueda', 'ClientController@buscar');
     Route::post('changeTrackStatus', 'SaleController@changeStatusTracking');
     Route::get('search', 'SaleController@search');
     Route::get('searchByCode', 'SaleController@searchByCode');

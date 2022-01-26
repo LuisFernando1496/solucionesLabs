@@ -50,9 +50,12 @@
         <table class="display table table-striped table-bordered" id="tabla1" style="width:100%">
             <thead class="black white-text">
                 <tr>
+                    <th scope="col">Folio</th>
                     <th scope="col">Cliente</th>
                     <th scope="col">Total</th>
                     <th scope="col">Abonos</th>
+                    {{-- solo si es admin --}}
+                   
                     <th scope="col">Restante</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Estatus</th>                
@@ -67,6 +70,7 @@
                         $restante = $item->cart_total;
                     @endphp
                 <tr>
+                    <th scope="row">{{$item->id}}</th>
                     <th scope="row">{{$item->client->name}}</th>
                     <th>${{$item->cart_total}}</th>
                     <td>
