@@ -114,14 +114,14 @@
                             <label for="name">CANTIDAD A ABONAR</label>
                             <input type="number" class="form-control" name="deposit" id="deposit" value=""placeholder="$0" required />
                         </div>  
-                            <input type="hidden" class="form-control" name="leftover" id="leftover"/>
-                            <input type="hidden" class="form-control" name="sale_id" id="sale_id" value="{{$sale->id}}"/>
-                            <input type="hidden" class="form-control" name="total_venta" id="total_venta" value="{{$sale->cart_total}}"/>
-                            <input type="hidden" class="form-control" name="client_id" id="client_id" value="{{$sale->client_id}}"/>
+                            <input type="hidden" class="form-control" step="any" name="leftover" id="leftover"/>
+                            <input type="hidden" class="form-control" step="any" name="sale_id" id="sale_id" value="{{$sale->id}}"/>
+                            <input type="hidden" class="form-control" step="any" name="total_venta" id="total_venta" value="{{$sale->cart_total}}"/>
+                            <input type="hidden" class="form-control" step="any" name="client_id" id="client_id" value="{{$sale->client_id}}"/>
                             @if($last_payment==null)
-                            <input type="hidden" class="form-control" name="last_payment" id="last_payment" value="{{$sale->cart_total}}"/>
+                            <input type="hidden" class="form-control" step="any" name="last_payment" id="last_payment" value="{{$sale->cart_total}}"/>
                             @else
-                            <input type="hidden" class="form-control" name="last_payment" id="last_payment" value="{{$last_payment->leftover}}"/>
+                            <input type="hidden" class="form-control" step="any" name="last_payment" id="last_payment" value="{{$last_payment->leftover}}"/>
                             @endif
                         <div class="form-group my-3 mx-3">
               
@@ -143,9 +143,9 @@
 $(document).ready(function() {
     $('#deposit').change( function() {
         
-        var efectivo = parseInt(document.getElementById("deposit").value, 10);
-        var total_pagar = parseInt(document.getElementById("total_venta").value, 10);
-        var ultimo_pago = parseInt(document.getElementById("last_payment").value, 10);
+        var efectivo = parseFloat(document.getElementById("deposit").value, 10);
+        var total_pagar = parseFloat(document.getElementById("total_venta").value, 10);
+        var ultimo_pago = parseFloat(document.getElementById("last_payment").value, 10);
 
         if(ultimo_pago==""){
             if(total_pagar-efectivo<0){

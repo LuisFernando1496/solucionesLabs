@@ -78,7 +78,7 @@
                         @endforeach
                         ${{$total}}.00
                     </td>
-                    <td>${{$restante}}</td>
+                    <td>${{$item2->leftover}}</td>
                     <td>{{$item->created_at}}</td>
                     @if($item->status_credit=='adeudo')
                     <td><div class="card" style="text-align:center; background-color:red">

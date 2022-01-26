@@ -29,7 +29,7 @@ class ClientController extends Controller
     public function showCredits()
     {
         $user = Auth::user();
-        if ($user->rol_id == 1) {
+        if ($user->rol_id == 1 || $user->rol_id == 3) {
             //dd(Sale::whereNotNull('client_id')->with('payments')->orderBy('id', 'DESC')->get());
             //$credit=Sale::whereNotNull('client_id')->whereNotNull('status_credit')->with('payments')->orderBy('id', 'DESC')->get();
             $credit=Sale::whereNotNull('client_id')->whereNotNull('status_credit')->with('payments')->orderBy('id', 'DESC')->paginate(10);
@@ -82,7 +82,7 @@ class ClientController extends Controller
 
                 DB::commit();
                 $pay = Payment::where('sale_id', $request->sale_id)->latest()->first();
-                return view('client.tickect_credit', [
+                return view('sales.tickect_credit', [
                     'sale' => $sale, 
                     'client' => $client,
                     'pay' => $pay

@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+@php
+    $subtotals = 0;
+    $total =0;
+    $descuento =0;
+    $variable;
+    $title;
+    $cliente = $sale->client;
+    $variable =  $sale->productsInSale;
+    $title = 'Abono';
+@endphp
 <head>
     <meta charset="UTF-8">
-    <title>Ticket de credito</title> 
+    <title>{{$title}}</title>    
 </head>
 <body>
 
 <style>
-    * {
-    font-size: 12px;
-    font-family: 'Times New Roman';
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+   
 }
-td,th,tr,table {
-    border-top: 1px solid black;
+
+}
+.left{
+    margin-left: 0px;
+  margin-right: auto;
+  margin-top: 0%;
+  padding-top: 0%;
+}
+td,tr,table {
+   
     border-collapse: collapse;
 }
-td.producto,th.producto {
-    width: 150px;
-    max-width: 150px;
-}
+
 td.cantidad,th.cantidad {
-    width: 40px;
-    max-width: 40px;
     word-break: break-all;
 }
 td.precio,th.precio {
-    width: 40px;
-    max-width: 40px;
     word-break: break-all;
 }
 .centrado {
@@ -34,13 +47,15 @@ td.precio,th.precio {
     align-content: center;
     width: 100%;
 }
-.ticket {
-    width: 155px;
-    max-width: 155px;
-}
 img {
     max-width: inherit;
     width: inherit;
+}
+table.borde
+{
+
+  border-collapse:collapse;
+}
 }
 @media print{
   .oculto-impresion, .oculto-impresion *{
@@ -49,58 +64,88 @@ img {
 }
 
 </style>
-<div class="ticket">
-    <img src="{{asset('/logo_inusual.png')}}" alt="Logotipo">
-    <p class="centrado">
-        Calle {{$sale->branchOffice->address->street}},Numero {{$sale->branchOffice->address->ext_number}} <br>
+
+<div>
+    <table class="borde">
+    <thead>
+        <th class="borde" > <img class="left" src="{{asset('/solucioneslab.png')}}" style="width:210px ; height:150px ;" alt="Logotipo"></th>
+        <th>   <p class="centrado">
+        Calle {{$sale->branchOffice->address->street}},No {{$sale->branchOffice->address->ext_number}} <br>
         Colonia {{$sale->branchOffice->address->suburb}} <br>
-        Atendido por {{Auth::user()->name}} {{Auth::user()->last_name}} <br>
+        Tel. 961 141 1395 <br>
+        Cel. 961 122 3970 <br>
+        Personas Fisicas Con actividades Empresariales y Profesionales
+        
+    </p></th>
+        <th> 
         Fecha: {{$sale->created_at->format('d-m-y h:i:s')}} <br>
-        Folio: {{$sale->id}} <br>
-        ABONO DE PAGO A CREDITO
-    </p>
-    <section id="ticket" style="display: flex; justify-content: space-between; align-items: center;">
-        <div id="pro-th">CANT</div>
-        <div id="pre-th">PRO  <br></div>
-        <div id="subtotal">DEP</div>
-        <div id="subtotal">REST</div>
+        Folio: {{$sale->id}}
+    </th>
+    </thead>
+</table>
+<br>
+    @if(!empty($cliente))
+    Cliente: {{$cliente->name}}  @if($cliente->last_name != 'NO APLICA'){{ $cliente->last_name}} @endif @endif
+  
+  
+    <section style="display: flex; justify-content: space-between; align-items: center;">
+        <table style="width: 100%">
+            <tr>
+                 <thead style="font-size: 80%">
+                    <th>CANTIDAD</th>
+                    <th>MARCA</th>
+                    <th>PRODUCTO</th>
+                    <th>PRECIO</th>
+                    <th>DESCUENTO</th>
+                    <th>DEPOSITO</th>
+                    <th>TOTAL</th>
+            </thead>
+            <hr>
+            </tr>
+           <tbody style="text-align: center;font-size: 76%">
+               @foreach($variable as $product)
+                
+                    <tr>
+                        <td>{{$product->quantity}}</td>
+                        <td>{{$product->product->brand->name}}</td>
+                        <td>{{$product->product->name}}</td>
+                        <td>${{number_format($product->sale_price,2,'.',',')}}</td>
+                        <td>@if($product->discount != null)${{number_format($product->amount_discount,2,'.',',')}}@else - @endif</td>
+                        <td>${{number_format($pay->deposit,2,'.',',')}}</td>
+                        <td>${{number_format($pay->leftover, 2, '.',',')}}</td>
+                        
+                    </tr>
+                    @php
+                        $subtotals += $product->sale_price;
+                        $total += $product->subtotal;
+                        $descuento += $product->discount;
+                    @endphp
+               @endforeach
+           </tbody>
+        </table>
+        
     </section>
-    <hr>
-    @foreach($sale->productsInSale as $product)
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div id="pro-td">
-                {{$product->quantity}}
-            </div>
-            <div id="pre-td" style="text-align: center;">{{$product->product->name}} </div>
-            <div id="can-td" style="text-align: center; margin-right:3px !important;">${{number_format($pay->deposit,2,'.',',')}}</div>
-            <div id="subtotal" style="text-align: center;">${{number_format($pay->leftover,2,'.',',')}} </div>
-        </div>
-        <hr>
-    @endforeach
+    <hr/>
+
     <div id="total">
-        @if ($sale->payment_type == 0)
-        Pago en efectivo
-        @elseif($sale->payment_type == 1)
-        Pago con tarjeta
-        @else
-        Pago a crédito
-        @endif
-        =========================
-        <br>
-        @if($sale->discount != null)Descuento: {{number_format($sale->discount,2,'.',',')}}% @endif
-        =========================
-        <br>
-        Subtotal:  ${{number_format($sale->cart_subtotal,2,'.',',')}}
-        =========================
-        <br>
+        
+        @if($sale->discount != null)Descuento:  %{{number_format($sale->discount,2,'.',',')}} <br> @endif
+        Monto de descuento: ${{number_format($sale->amount_discount, 2, '.', ',')}} <br>
         Total: ${{number_format($sale->cart_total,2,'.',',')}} <br>
         Deposito: ${{number_format($pay->deposit, 2, '.', ',')}} <br>
         Restante: ${{number_format($pay->leftover, 2, '.', ',')}}
     </div>
-    <p class="centrado">RFC:{{Auth::user()->rfc}} </p>
-    <p class="centrado">Email: {{Auth::user()->email}}</p>
-    <p class="centrado">¡GRACIAS POR SU COMPRA!</p>
-    <p class="centrado">Este ticket no es comprobante fiscal y se incluirá en la venta del día</p>
+    <br>
+    <br>
+    <br>
+    {{$title}}
+    <p class="centrado">_____________________________</p>
+    <p class="centrado">Firma</p>
+    <br/>
+    <br/>
+    <br/>
+   
+
 </div>
 </body>
 <script>
@@ -110,3 +155,5 @@ img {
     });
 </script>
 </html>
+
+

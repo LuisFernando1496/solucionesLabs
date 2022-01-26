@@ -36,7 +36,7 @@ class UserController extends Controller
     public function indexClient()
     {
         $user = Auth::user();
-        if ($user->rol_id == 1) {
+        if ($user->rol_id == 1 || $user->rol_id == 3) {
             return view('user.indexClient', ['users' => Client::where('status', 1)->get()]);
         } else {
             return back()->withErrors(["error" => "No tienes permisos"]);

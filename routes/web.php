@@ -40,7 +40,8 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('sale-detail/{id}', 'SaleController@showDetails');  
     Route::get('sale-detail-history/{id}', 'ClientController@showDetailsHistory');    
     Route::post('abonar', 'ClientController@abonar');
-    Route::post('reprint', 'SaleController@reprint');   
+    Route::post('reprint', 'SaleController@reprint');
+    Route::get('credit/busqueda', 'ClientController@buscar');
     Route::post('quote', 'SaleController@quote');   
     Route::resource('marcas', 'BrandController');
     Route::resource('categorias', 'CategoryController');

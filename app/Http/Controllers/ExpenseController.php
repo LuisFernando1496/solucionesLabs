@@ -20,7 +20,7 @@ class ExpenseController extends Controller
     public function index()
     {
         //return Expense::where('branch_office_id',1)->get();
-        if (Auth::user()->rol_id == 1) {
+        if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3) {
             return view('expenses.index', ['expenses' => Expense::all()]);
         } else {
             return back()->withErrors(["error" => "No tiene permisos."]);

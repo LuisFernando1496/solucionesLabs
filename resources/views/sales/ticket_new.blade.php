@@ -128,15 +128,15 @@ table.borde
                    <td>{{$product->product->brand->name}}</td>
                    <td>{{$product->product->name}}</td>
                    <td>${{number_format($product->sale_price,2,',','.')}}</td>
-                   <td>@if($product->discount != 0)${{number_format($product->discount,2,',','.')}}@else-@endif</td>
-                   <td>${{number_format($product->subtotal,2,',','.')}}</td>
+                   <td>@if($sale->discount != null)${{number_format($sale->amount_discount,2,'.',',')}}@else - @endif</td>
+                   <td>${{number_format($sale->cart_total,2,',','.')}}</td>
                   
                </tr>
-               @php
-               $subtotals += $product->sale_price;
-               $total += $product->subtotal;
-               $descuento += $product->discount;
-                @endphp
+                    @php
+                        $subtotals += $product->sale_price;
+                        $total += $product->subtotal;
+                        $descuento += $product->discount;
+                    @endphp
                @endforeach
            </tbody>
         </table>
@@ -146,14 +146,20 @@ table.borde
 
     <div id="total">
         
-        @if($sale->discount != null)Descuento:  %{{number_format($sale->discount,2,'.',',')}}@endif
+        @if($sale->discount != null)Descuento: {{$sale->discount}}% @endif
       
         <br>
-        @if ($title != 'Cotizacion')   
-         Pago en efectivo
+        @if ($title != 'Cotizacion')
+            @if($sale->payment_type == 0)
+            Pago en efectivo
+            @elseif($sale->payment_type == 1)
+            Pago con tarjeta
+            @else
+            Pago a credito
+            @endif
         @endif
-         <br>
-        Total: ${{number_format($total-$descuento,2,'.',',')}}
+        <br>
+        Total: ${{number_format($sale->cart_total,2,'.',',')}}
     </div>
     <br>
     <br>
