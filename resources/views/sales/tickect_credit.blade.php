@@ -98,7 +98,7 @@ table.borde
                     <th>PRECIO</th>
                     <th>DESCUENTO</th>
                     <th>DEPOSITO</th>
-                    <th>TOTAL</th>
+                    <th>TOTAL<br>RESTANTE</th>
             </thead>
             <hr>
             </tr>
@@ -129,11 +129,19 @@ table.borde
 
     <div id="total">
         
-        @if($sale->discount != null)Descuento:  %{{number_format($sale->discount,2,'.',',')}} <br> @endif
-        Monto de descuento: ${{number_format($sale->amount_discount, 2, '.', ',')}} <br>
-        Total: ${{number_format($sale->cart_total,2,'.',',')}} <br>
-        Deposito: ${{number_format($pay->deposit, 2, '.', ',')}} <br>
-        Restante: ${{number_format($pay->leftover, 2, '.', ',')}}
+        @if($sale->discount != null)
+            Descuento:  %{{number_format($sale->discount,2,'.',',')}} <br> 
+            Monto de descuento: ${{number_format($sale->amount_discount, 2, '.', ',')}} <br>
+        @endif
+        Total venta: ${{number_format($sale->cart_total,2,'.',',')}} <br>
+        Deposito actual: ${{number_format($pay->deposit, 2, '.', ',')}} <br>
+        Restante actual: ${{number_format($pay->leftover, 2, '.', ',')}} <br>
+        @if(sizeof($history) > 1)
+        Deposito anterior: ${{$history[sizeof($history)-2]->deposit}} <br>
+        Restante anterior: ${{$history[sizeof($history)-2]->leftover}} <br>
+        @endif
+
+
     </div>
     <br>
     <br>
