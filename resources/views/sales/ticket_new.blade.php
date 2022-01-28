@@ -99,9 +99,7 @@ table.borde
 
     @if ($title == 'Cotizacion')
     Cliente: {{$clientName}}
-    <hr>
-    Esta nota es informativa
-    Precios sujetos a cambios sin previo aviso.
+    
     @endif
    <hr>
   
@@ -163,8 +161,16 @@ table.borde
     </div>
     <br>
     <br>
-    <br>
     {{$title}}
+     @if ($title == 'Cotizacion')
+    <hr>
+    Esta nota es informativa
+    Precios sujetos a cambios sin previo aviso.
+    <hr/>
+     <br>
+       <br>
+    @endif
+   
     <p class="centrado">_____________________________</p>
     <p class="centrado">Firma</p>
     <br/>
