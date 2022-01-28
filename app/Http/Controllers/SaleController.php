@@ -309,6 +309,18 @@ class SaleController extends Controller
         );
         return response()->json($products);
     }
+
+    public function searchClient(Request $request){
+        //return $request;
+        $datas = Client::where("clients.name", "LIKE", "%{$request->search}%")
+        ->where('clients.status', '=', true)
+        ->orWhere('clients.last_name', "LIKE", "%{$request->search}%")
+        ->where('clients.status', '=', true)
+        ->get();
+        //return $datas;
+        return response()->json($datas);
+    }
+
     public function reprint(Request $request)
    
     {

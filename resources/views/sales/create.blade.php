@@ -125,6 +125,54 @@
                     
                 </div>
             </div>
+
+            <!--Modal buscar client-->
+            <div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="productModalLabel">Buscar cliente</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <input type="text" id="searchClient" style="text-transform: uppercase" class="form-control" name="searchClient" autocomplate="searchClient" placeholder="Buscar cliente"/>
+                                    <div class="input-group-append">
+                                        <button id="searchClientButton" class="btn btn-outline-secondary">
+                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                                                <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>  
+                            </div>
+
+                            <!--table-->
+                            <div class="col-md-12">
+                                <table id="resultTableClient"class="table table-sm table-hover table-responsive-lg overflow-auto my-2">
+                                    <thead>
+                                        <!--<tr>
+                                            <th>Resultado de búsqueda 
+                                        </tr>-->
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Correo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="searchResultClient">
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             <div class="row my-4">
                 
@@ -274,7 +322,7 @@
                                                 </select>   
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        {{--<div class="col-md-12">
                                             <label for="client">Cliente</label>
                                             <select class="custom-select" name="client_id" id="client_id">
                                             <option value="">Cliente general</option>
@@ -282,6 +330,25 @@
                                                     <option value="{{$client->id}}">{{$client->name}} {{$client->last_name}}</option>
                                                 @endforeach
                                             </select>
+                                        </div>--}}
+                                        <div class="col-md-12">
+                                            <label for="client">Cliente</label>
+                                            <div class="input-group">
+                                                <select class="custom-select" name="client_id" id="client_id">
+                                                    <option value="">Cliente general</option>
+                                                    @foreach($clients as $client)
+                                                        <option value="{{$client->id}}">{{$client->name}} {{$client->last_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#clientModal">
+                                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                                                            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="float-right pt-1">
@@ -815,6 +882,76 @@
                     },
                 });
             }
+
+            function fsearchClient(){
+                //console.log($('#searchResultClient').empty());
+                $('#searchResultClient').empty();
+                //var usuario = document.getElementById('user').value;
+                if($("#searchClient").val().length!=0){
+                    $.ajax({
+                        url: "/searchClient",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'GET',
+                        contentType: "application/json; charset=iso-8859-1",
+                        data: {'search':$('#searchClient').val().toUpperCase()},
+                        dataType: 'html',
+                        success: function(data) {
+                            result=JSON.parse(data);
+                            console.log(result.length);
+                            if(result.length!==0){
+                                result.forEach(function(element,index){
+                                    $('#searchResultClient').append(
+                                        '<tr class="item-resultC" style="cursor: grab;" data-id="'+element.id+'">'+
+                                            '<td>'+element.name+' '+ element.last_name+'</td>'+
+                                            '<td>'+element.email+'</td>'+
+                                        '</tr>'
+                                    );
+                                });
+                                $('.item-resultC').off();
+                                $('.item-resultC').click(function() {
+                                    console.log("data"+$(this).data('id'));
+                                    addClient($(this).data('id'));
+                                    $('#clientModal').modal('hide');
+                                });
+                            }   
+                            else{
+                                $('#searchResultClient').append(
+                                    '<tr class="item-result">'+
+                                        '<td colspan="8">No se encontraron resultados</td>'+
+                                    '</tr>'
+                                );
+                            }
+                        },
+                        error: function(e) {
+                            console.log("ERROR", e);
+                        },
+                    });
+                }
+            }
+            $('#searchClient').keyup( function(event) {
+                if(event.keyCode===13){
+                    if($(this).val().length!==0){
+                        fsearchClient();
+                    }
+                    else if($(this).val().length===0){
+                        $('#searchResultClient').empty();
+                    }
+                }
+            }); 
+            $('#searchClientButton').click( function() {
+                fsearchClient();
+            });
+            function addClient(idClient){
+                let client = result.find(element => element.id == idClient);
+                //console.log("Cliente: "+result);
+                //$("#client_id").val(client.name);
+                $('#searchClient').val('');
+                $("#client_id option[value="+ client.id +"]").attr("selected",true);
+                
+            }
+
             function getBoxes(){
                 $('#box_id').empty();
                 $.ajax({
