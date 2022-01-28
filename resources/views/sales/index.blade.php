@@ -80,7 +80,7 @@
                             <td>{{$item->track_status}}</td>
                             <td>
                                 <div class="row">
-                                    @if (Auth::user()->rol_id == 1 ||Auth::user()->rol_id == 2)
+                                 
                                     <form  action="/reprint" method="POST" target="_blank">
                                         <input type="hidden" name="sale_id" value="{{$item->id}}">
                                         <button type="submit" class="btn btn-outline-secondary btn-sm mx-2" data-type="edit">
@@ -101,7 +101,7 @@
                                             <small>CANCELAR</small>
                                         </button>
                                     </form>
-                                    @endif
+                                  
                                 </div>
                             </td>
                             <td>
@@ -122,7 +122,7 @@
                         <td>{{$item->track_status}}</td>
                         <td>
                             <div class="row">
-                                @if (Auth::user()->rol_id == 1)
+                              
                                 <form  action="/reprint" method="POST" target="_blank">
                                     <input type="hidden" name="sale_id" value="{{$item->id}}">
                                     <button type="submit" class="btn btn-outline-secondary btn-sm mx-2" data-type="edit">
@@ -143,7 +143,7 @@
                                         <small>CANCELAR</small>
                                     </button>
                                 </form>
-                                @endif
+                         
                             </div>
                         </td>
                         <td>

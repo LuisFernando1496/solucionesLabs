@@ -127,7 +127,7 @@ table.borde
                    <td>{{$product->product->name}}</td>
                    <td>${{number_format($product->sale_price,2,',','.')}}</td>
                    <td>@if($sale->discount != null)${{number_format($sale->amount_discount,2,'.',',')}}@else - @endif</td>
-                   <td>${{number_format($sale->cart_total,2,',','.')}}</td>
+                   <td>${{number_format(($product->sale_price * $product->quantity),2,',','.')}}</td>
                   
                </tr>
                     @php
