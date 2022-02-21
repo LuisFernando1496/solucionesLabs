@@ -96,7 +96,6 @@ table.borde
             </tr>
            <tbody style="text-align: center;font-size: 86%">
     @foreach($sale->productsInSale as $product)
-<<<<<<< HEAD
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <div id="pro-td">
                 {{$product->quantity}}
@@ -105,15 +104,6 @@ table.borde
             <div id="can-td" style="text-align: center; margin-right:1em !important;">${{number_format($product->sale_price,2,',','.')}} </div>
             <div id="can-td" style="text-align: center; margin-right:1em !important;">{{$sale->amount_discount}}</div>
             <div id="subtotal" style="text-align: center;">${{number_format($sale->cart_total,2,',','.')}} </div>
-=======
-        <tr>
-            <td> {{$product->quantity}}</td>  
-             <td>{{$product->product->brand->name}} </td> 
-          <td>{{$product->product->name}} </td> 
-        <td> ${{number_format($product->sale_price,2,',','.')}} </td>  
-          <td> @if($product->discount != 0)${{number_format($product->discount,2,',','.')}}@else-@endif</td>
-          <td>${{number_format($product->subtotal,2,',','.')}}  </td>
->>>>>>> 9661477e707743263668148577f2330f4a0384d2
         </div>
        </tr>
     @endforeach
@@ -124,13 +114,8 @@ table.borde
     <hr/>
     <br/>
     <div id="total">
-<<<<<<< HEAD
         Pago a crédito: {{$client->name." ".$client->last_name}} <br>
         Dias de pago: {{$client->payment_days}} <br>
-=======
-       <br/>
-     
->>>>>>> 9661477e707743263668148577f2330f4a0384d2
         @if($sale->discount != null)Descuento:  %{{number_format($sale->discount,2,'.',',')}}@endif
        
         <br>
