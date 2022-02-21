@@ -20,7 +20,6 @@
              <table style="width: 100%; margin-top:20px;">
                 <tr>
                     <th colspan="1" style=" border-color: transparent" >
-                        <img  src="{{ public_path('logopdf.png') }}" width="150px;">
                     </th>
                     <th colspan="4" style=" border-color: transparent" >
                         <h4 style="padding-right: 15em">REPORTE DE INVENTARIO</h4>
@@ -56,6 +55,7 @@
                 </tr>
                 @endif
                 <tr>
+                    <th>CODIGO DE BARRAS</th>
                     <th class="backgroundColor">PRODUCTO</th>
                     <th class="backgroundColor">CATEGORÍA</th>
                     <th class="backgroundColor">MARCA</th>
@@ -69,6 +69,7 @@
                 @if ($b->id == $p->branch_office_id )
                 <tr>
                     
+                    <td>{{$p->bar_code}}</td>
                     <td>{{$p->name}}</td>
                     <td>{{$p->category->name}}</td>
 

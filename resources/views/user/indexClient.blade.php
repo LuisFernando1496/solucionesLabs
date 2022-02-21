@@ -244,7 +244,7 @@
     }
 
     function llenar(item) {
-        document.getElementById("myFormEdit").action = "/users/" + item.id;
+        document.getElementById("myFormEdit").action = "/users/update/" + item.id;
 
         document.getElementById('name_edit').value = item.name
         document.getElementById('last_name_edit').value = item.last_name

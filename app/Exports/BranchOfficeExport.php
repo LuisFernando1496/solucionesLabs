@@ -19,6 +19,7 @@ use DateTime;
 use DateTimeZone;
 use App\Box;
 use App\ProductInSale;
+use App\Client;
 use Illuminate\Support\Facades\Auth;
 
 class BranchOfficeExport implements FromView
@@ -41,44 +42,45 @@ class BranchOfficeExport implements FromView
         }
 
         $tempId = $this->dataGlobal->branchOfficeId;
-            $data = Sale::join("cash_closings" ,"cash_closings.id", "=" ,"sales.cash_closing_id")
-            ->leftjoin("expenses", "expenses.cash_closing_id", "=" ,"cash_closings.id")
-            ->select(DB::raw(" SUM(sales.total_cost) as costo,
-            cash_closings.initial_cash as caja_inicial,
-            cash_closings.end_cash as caja_final,
-            SUM(amount_discount) as descuento,
-            SUM(cart_subtotal) as subtotal,
-            sum(cart_total) as total,
-            sum(expenses.price) as expense"))
-            ->whereBetween('sales.created_at',[$from, $to])
-            ->where("sales.branch_office_id" , "=" , $tempId)
-            ->where("sales.status",  "=", true)
-            ->where("cash_closings.status", "=", true) //cambiar a true
-            ->groupBy("sales.payment_type")
-            ->get();
+        $data = Sale::join("cash_closings" ,"cash_closings.id", "=" ,"sales.cash_closing_id")
+        ->leftjoin("expenses", "expenses.cash_closing_id", "=" ,"cash_closings.id")
+        ->select(DB::raw("SUM(sales.total_cost) as costo,
+        cash_closings.initial_cash as caja_inicial,
+        cash_closings.end_cash as caja_final,
+        SUM(amount_discount) as descuento,
+        SUM(cart_subtotal) as subtotal,
+        sum(cart_total) as total,
+        sum(expenses.price) as expense"))
+        ->whereBetween('sales.created_at',[$from, $to])
+        ->where("sales.branch_office_id" , "=" , $tempId)
+        ->where("sales.status",  "=", true)
+        ->where("cash_closings.status", "=", true) //cambiar a true
+        ->groupBy("sales.payment_type")
+        ->get();
 
-            $p = ProductInSale::join("sales" ,"sales.id", "=" ,"product_in_sales.sale_id")
-            ->join("users","users.id","=","sales.user_id")
-            ->join("products","products.id","=","product_in_sales.product_id")
-            ->join("brands","brands.id","=","products.brand_id")
-            ->join("categories","categories.id","=","products.category_id")
-            ->select("products.name as product_name",
-            "categories.name as category",
-            "brands.name as brand",
-            "product_in_sales.quantity as quantity",
-            "products.cost as cost",
-            "product_in_sales.sale_price as sale_price",
-            "product_in_sales.discount as amount_discount",
-            "product_in_sales.total as total",
-            "users.name as seller",
-            "users.last_name as seller_lastName",
-            "product_in_sales.created_at as date",
-            "sales.branch_office_id"
-            )
-            ->where("sales.branch_office_id","=",$tempId)
-            ->where("sales.status",  "=", true)
-            ->whereBetween('sales.created_at',[$from, $to])
-            ->get();
+        $p = ProductInSale::join("sales" ,"sales.id", "=" ,"product_in_sales.sale_id")
+        ->join("users","users.id","=","sales.user_id")
+        ->join("products","products.id","=","product_in_sales.product_id")
+        ->join("brands","brands.id","=","products.brand_id")
+        ->join("categories","categories.id","=","products.category_id")
+        ->select("products.name as product_name",
+        "categories.name as category",
+        "brands.name as brand",
+        "product_in_sales.quantity as quantity",
+        "products.cost as cost",
+        "product_in_sales.sale_price as sale_price",
+        "product_in_sales.discount as amount_discount",
+        "product_in_sales.total as total",
+        "users.name as seller",
+        "users.last_name as seller_lastName",
+        "product_in_sales.created_at as date",
+        "sales.branch_office_id",
+        "sales.folio_branch_office as folio",
+        "sales.client_id as client_id",
+        )
+        ->where("sales.status",  "=", true)
+        ->whereBetween('sales.created_at',[$from, $to])
+        ->get();
 
             $b = DB::table('branch_offices')
             ->distinct()
@@ -110,6 +112,7 @@ class BranchOfficeExport implements FromView
             } catch (\Throwable $th) {
                 //throw $th;
             }
+            $clients = Client::where("status", "=", true)->get();
             return view('reports.reportBranchOffice',["cash" => $d0,
             "card" => $d1,
             "user" => Auth::user(),
@@ -117,6 +120,7 @@ class BranchOfficeExport implements FromView
             "products"=>$p,
             "branchOffice" => $b,
             "to" => $to,
+            "clientes" => $clients,
             "from" =>$showFrom]);
     }
 }

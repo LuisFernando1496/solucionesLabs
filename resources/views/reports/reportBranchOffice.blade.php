@@ -112,8 +112,8 @@
                                 @endif
                             @endforeach
                         @else
-                            <td>N/A</td>
-                            <td>N/A</td>
+                            <td>Cliente General</td>
+                            <td>Cliente General</td>
                         @endif
                         <td>{{date('Y-m-d',strtotime($p->date))}}</td> 
                         <td>{{date('H:m:s',strtotime($p->date))}}</td> 

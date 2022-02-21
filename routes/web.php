@@ -30,6 +30,7 @@ Route::post('/searchSaleById', 'SaleController@searchSaleById');
 //Route::resource('user', 'UserController');
 Route::group(['middleware'=>'auth'], function(){
     Route::resource('users', 'UserController');
+    Route::put('/users/update/{id}', 'UserController@update');
     Route::get('clients', 'UserController@indexClient');
     Route::put('/client/{id}','ClientController@update');
     Route::delete('/client/{id}','ClientController@destroy');
